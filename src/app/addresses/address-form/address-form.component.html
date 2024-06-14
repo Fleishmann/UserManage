@@ -1,0 +1,59 @@
+<mat-card class="address-form-card">
+    <div class="header">
+      <h1>{{ isEditMode ? 'Editar Endereço' : 'Adicionar Endereço' }}</h1>
+      <button mat-icon-button color="primary" (click)="navigateBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  
+    <form [formGroup]="addressForm" (ngSubmit)="onSubmit()" class="form-container">
+  
+      <div class="form-row">
+        <mat-form-field class="flex-50">
+          <input matInput placeholder="CEP" formControlName="cep" (input)="formatCep($event)" maxlength="9" (blur)="fetchAddressByCep()">
+          <mat-error *ngIf="CepErrors['required']">CEP é obrigatório.</mat-error>
+          <mat-error *ngIf="CepErrors['pattern']">CEP deve estar no formato XXXXX-XXX.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="flex-50">
+          <input matInput placeholder="Número" formControlName="numero" (input)="onlyNumber($event)">
+          <mat-error *ngIf="NumeroErrors['required']">Número é obrigatório.</mat-error>
+          <mat-error *ngIf="NumeroErrors['pattern']">Número deve conter apenas números.</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field class="flex-100">
+          <input matInput placeholder="Logradouro" formControlName="logradouro">
+          <mat-error *ngIf="LogradouroErrors['required']">Logradouro é obrigatório.</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field class="flex-50">
+          <input matInput placeholder="Cidade" formControlName="cidade">
+          <mat-error *ngIf="CidadeErrors['required']">Cidade é obrigatória.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="flex-50">
+          <input matInput placeholder="Bairro" formControlName="bairro">
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field class="flex-50">
+          <input matInput placeholder="UF" formControlName="uf">
+          <mat-error *ngIf="UfErrors['required']">UF é obrigatório.</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="flex-50">
+          <input matInput placeholder="Complemento" formControlName="complemento">
+        </mat-form-field>
+      </div>
+  
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'Atualizar' : 'Salvar' }}</button>
+      </div>
+    </form>
+  </mat-card>
+  

@@ -1,0 +1,65 @@
+<mat-card>
+  <h1>{{ isEditMode ? 'Editar Usuário' : 'Adicionar Usuário' }}</h1>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Nome de Usuário</mat-label>
+      <input matInput type="text" id="nome" formControlName="nome" required>
+      <mat-error *ngIf="userForm.get('nome')?.touched && NomeErrors">
+        <span *ngIf="NomeErrors['required']">Nome de usuário é obrigatório</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" id="email" formControlName="email" required>
+      <mat-error *ngIf="userForm.get('email')?.touched && EmailErrors">
+        <span *ngIf="EmailErrors['required']">Email é obrigatório</span>
+        <span *ngIf="EmailErrors['email']">Email inválido</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Senha</mat-label>
+      <input matInput type="{{ hide ? 'password' : 'text' }}"
+      id="password"
+      formControlName="password"
+      required>
+      <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="userForm.get('password')?.touched && PasswordErrors">
+        <span *ngIf="PasswordErrors['required']">Senha é obrigatória</span>
+        <span *ngIf="PasswordErrors['securePassword']">Senha deve ter pelo menos 8 caracteres, incluir um número e uma
+          letra maiúscula</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Data de Nascimento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dataNascimento" readonly required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="userForm.get('dataNascimento')?.touched && DataNascimentoErrors">
+        <span *ngIf="DataNascimentoErrors['required']">Data de nascimento é obrigatória</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Sexo</mat-label>
+      <mat-select formControlName="sexo" required>
+        <mat-option *ngFor="let sexo of sexos" [value]="sexo.value">
+          {{ sexo.viewValue }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="userForm.get('sexo')?.touched && SexoErrors">
+        <span *ngIf="SexoErrors['required']">Sexo é obrigatório</span>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="button-group">
+      <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Salvar</button>
+      <button mat-raised-button color="accent" class="back-button" (click)="navigateBack()">Voltar</button>
+    </div>
+  </form>
+</mat-card>
